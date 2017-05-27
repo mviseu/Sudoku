@@ -1,0 +1,40 @@
+The sudoku challenge:
+---------------------
+Sudoku grid:
+0 represents empty cell
+1-9 are valid values
+
+Success:
+Each value (from 1 to 9) must be represented exactly once
+ - in each row
+ - in each column
+ - in each 3x3 submatrix
+
+Goals:
+------
+- User starts program (./sudoku)
+- User selects cell (and gets visual feedback)
+- User is prompted for value
+- If move is invalid, user failed and should be appropriately shamed
+- If user successfully solves the puzzle, happy game over
+
+Usage requirements:
+-------------------
+- Program must be dumb proof (I will use it)
+- At any given point, input required from user (if any) must be obvious
+
+Technological requirements:
+---------------------------
+- Use cmake for building program
+
+Bonus points:
+-------------
+- Pretty unicode characters
+- Good looking README.md file
+- Documentation option (i.e: sudoku -h, sudoku --help)
+- Randomized starting grid that is always solvable
+
+Hint:
+-----
+- Here is a way to clear the screen that's not too dangerous:
+    ```std::cout << "\E[H\E[2J";"```
