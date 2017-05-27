@@ -14,7 +14,7 @@
 * print grid with numbers
 	*replace 0's with spaces
 	*have clear dividers between regions 
-
+	```
 	X X X | X X X | X X X
 	X X X | X X X | X X X
 	X X X | X X X | X X X
@@ -26,6 +26,7 @@
 	X X X | X X X | X X X
 	X X X | X X X | X X X
 	X X X | X X X | X X X
+	```
 
 * check rows 
 * check columns
