@@ -1,17 +1,32 @@
 # TO DO 
 
 ## Classes
-### Grid
+### Matrix
 * Data members
 	* vector of vector of ints
 	* cursor location
 * Functions
-	* print grid
 	* select cell -> change "cursor" location
 		* must contain an exception if selected cursor is on starting sudoku location
 	* change cell -> based on cursor location
 
 ### Sudoku
+* print grid with numbers
+	*replace 0's with spaces
+	*have clear dividers between regions 
+
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+	- - - + - - - + - - -
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+	- - - + - - - + - - -
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+	X X X | X X X | X X X
+
 * check rows 
 * check columns
 * check regions
@@ -26,6 +41,8 @@ Note: check functions check only the particular row/column/region the user has s
 
 ## Start
 * With an initial known grid (in-class initializer?)
+* http://elmo.sbs.arizona.edu/sandiway/sudoku/examples.html for resources
+
 
 ## Notes 
 How to provide visual feedback for selected cells?
