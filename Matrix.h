@@ -4,21 +4,35 @@
 #include <iostream>
 
 using std::vector;
+using std::istream;
 using std::cout;
 using std::endl;
 
+namespace {
+	inline unsigned convertBase1to0(unsigned u) {
+		return u - 1;
+	}
+}
+
+struct Cursor {
+	unsigned row = 0;
+	unsigned column = 0;
+};
+
+
 class Matrix {
 public:
-	Matrix() = default;
-	Matrix(const vector<vector<unsigned>> &v) : elements(v) {}
+	using vv_unsigned = vector<vector<unsigned>>;
 
-	const vector<vector<unsigned>> &returnElements() const {
+	Matrix() = default;
+	Matrix(const vv_unsigned &v) : elements(v) {}
+
+	const vv_unsigned &returnElements() const {
 		return elements; 		
 	}
-	vector<vector<unsigned>> &returnElements() {
+	vv_unsigned &returnElements() {
 		return elements;
 	}
-
 	void printElements() const {
 		for(const auto &row : elements) {
 			for(const auto &e : row) {
@@ -27,9 +41,12 @@ public:
 		cout << endl;
 		}
 	}
+	istream &readCursor(istream &is);
+	istream &changeElement(istream &is);
+	vv_unsigned::const_iterator cbegin() const;
+
 
 private:
-	vector<vector<unsigned>> elements;
-	vector<unsigned> cursor{1, 1};
-
+	vv_unsigned elements;
+	Cursor cursor;
 };

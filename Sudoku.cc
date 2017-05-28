@@ -4,32 +4,35 @@
 using std::cout;
 using std::endl;
 
-void printOneElement(const unsigned &u) {
-	if(u != 0) {
-		cout << u;
-	} else {
-		cout << " ";
+namespace {
+	void printOneElement(const unsigned &u) {
+		if(u != 0) {
+			cout << u;
+		} else {
+			cout << " ";
+		}
+	}
+
+	bool isSeparatorNeeded(const unsigned &i, const unsigned nrElements) {
+		return (i % 3 == 2 && i != nrElements - 1);
+	}
+
+	void printDivider(const unsigned nrElements) {
+		for(unsigned i = 0; i != nrElements; ++i) {
+			cout << (isSeparatorNeeded(i, nrElements) ? "- + " : "- ");
+		}
 	}
 }
 
-bool remainder(const unsigned &i) {
-	return (i % 3 == 0 && i != Sudoku::nrRows);
-}
 
-void printDivider() {
-	for(auto i = 1; i != Sudoku::nrRows + 1; ++i) {
-		cout << (remainder(i) ? "- + " : "- ");
-	}
-}
-
-void printRow(const vector<unsigned> &row) {
-	auto Beg = row.cbegin();
-	const auto End = Beg + Sudoku::nrRows;
+void Sudoku::printRow(const v_unsigned &row) const {
+	const auto Beg = row.cbegin();
+	const auto End = Beg + nrRows;
 	auto iter = Beg;
 	while(iter != End) {
-		auto d = iter - Beg + 1;
+		auto d = iter - Beg;
 		printOneElement(*iter);
-		if(remainder(d)) {
+		if(isSeparatorNeeded(d, nrRows)) {
 			cout << " |";
 		}
 		cout << " ";
@@ -38,15 +41,15 @@ void printRow(const vector<unsigned> &row) {
 }
 
 void Sudoku::printSudoku() const {
-	auto Beg = elements.cbegin();
+	const auto Beg = data.cbegin();
 	const auto End = Beg + nrRows;
 	auto iter = Beg;
 	while(iter != End) {
-		auto d = iter - Beg + 1;
+		auto d = iter - Beg; 
 		printRow(*iter);
-		if(remainder(d)) {
+		if(isSeparatorNeeded(d, nrRows)) {
 			cout << endl;
-			printDivider();
+			printDivider(nrRows);
 		} 
 		cout << endl;
 		++iter;

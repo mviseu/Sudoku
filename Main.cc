@@ -4,6 +4,7 @@
 #include <iostream>
 
 using std::vector;
+using std::cin;
 using std::cout;
 using std::endl;
 
@@ -20,17 +21,19 @@ int main() {
 		{0,4,0,0,5,0,0,3,6},
 		{7,0,3,0,1,8,0,0,0},
 	};
-	Matrix M(vec);
-
-	//M.printElements();
-	Sudoku S(M);
-
+	Sudoku S(vec);
+	cout << "Welcome to Sudoku!\nHere is your grid:\n";
 	S.printSudoku();
+	cout << endl;
+	cout << "Provide the row and column of the cell you would like to change" << endl;
 
-	/*to do
-	1) Move static "rows" to sudoku.cc
-	2) Remove friend functions
-	3) Consider replacing iterators with a simple approach (indexed?)*/
+
+	/*M.readCursor(cin);
+	cout << endl;
+	cout << "Provide the cell value" << endl;
+	M.changeElement(cin);
+	cout << endl;
+	M.printElements();*/
 
 	return 0;
 }
