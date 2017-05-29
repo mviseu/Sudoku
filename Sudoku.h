@@ -7,6 +7,7 @@
 
 using std::cout;
 using std::endl;
+using std::iostream;
 using std::vector;
 
 
@@ -19,10 +20,18 @@ public:
 	Sudoku() = default;
 	Sudoku(const vv_unsigned &vv) : data(vv) {} 
 
-	void printSudoku() const;
+	const Sudoku &printSudoku() const;
+	Sudoku &printSudoku();
+
+	Sudoku &playOneMove();
+	//for now as public for debug
+	bool isDuplicateInRow() const;
 
 private:
 	Matrix data; 
 	void printRow(const v_unsigned &row) const;
+	Sudoku &doPrintSudoku() const;
+	bool isDuplicate(const v_unsigned::const_iterator iter, const v_unsigned::const_iterator Beg) const;
+
 	const short nrRows = 9;
 };

@@ -1,5 +1,6 @@
 # TO DO 
 
+# OVERALL PLAN
 ## Classes
 ### Matrix
 * Data members
@@ -51,3 +52,20 @@ How to provide visual feedback for selected cells?
 * check if it is the intended cursor position (with X?)
 * user will answer y-n
 * then change value
+
+# DAILY PLAN
+
+## DAY 2
+
+### Objective
+check if the row at position cursor.row does not have another value that is the same as the one in the cursor position
+
+**Matrix**
+Matrix has a function called getElement that returns the element at the cursor position (returns unsigned) 
+Matrix has a function getCursorColumn that returns the cursor column (returns unsigned) 
+Matrix has a function getRow that returns a vector<unsigned>
+
+**Sudoku**
+Sudoku has a private function called searchRow which returns true if a given element(from getElement) is in the row(from getRow) of the cursor, false if not.
+The cursor position (given from getCursorColumn) must be ignored (sudoku specific). 
+	

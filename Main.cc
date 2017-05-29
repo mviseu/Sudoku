@@ -22,18 +22,11 @@ int main() {
 		{7,0,3,0,1,8,0,0,0},
 	};
 	Sudoku S(vec);
-	cout << "Welcome to Sudoku!\nHere is your grid:\n";
+	cout << "Welcome to Sudoku!\n";
 	S.printSudoku();
 	cout << endl;
-	cout << "Provide the row and column of the cell you would like to change" << endl;
-
-
-	/*M.readCursor(cin);
-	cout << endl;
-	cout << "Provide the cell value" << endl;
-	M.changeElement(cin);
-	cout << endl;
-	M.printElements();*/
+	S.playOneMove().printSudoku();
+	cout << S.isDuplicateInRow() << endl;
 
 	return 0;
 }
