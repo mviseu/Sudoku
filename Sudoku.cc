@@ -1,11 +1,13 @@
 #include "Sudoku.h"
 #include <iostream>
+#include <vector>
 
 using std::istream;
 using std::ostream;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::vector;
 
 namespace {
 	void printOneElement(const unsigned &u) {
@@ -64,21 +66,34 @@ Sudoku &Sudoku::doPrintSudoku() const {
 	return const_cast<Sudoku &>(*this);
 }
 
-bool Sudoku::isDuplicate(const v_unsigned::const_iterator iter, const v_unsigned::const_iterator Beg) const {
-	return iter - Beg != data.getCursorColumn() && *iter == data.getElement();
+bool Sudoku::isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator Beg, 
+											 v_unsigned::const_iterator iter) const {
+	return iter - Beg != cursorIndex && *iter == data.getElement();
 }
 
-bool Sudoku::isDuplicateInRow() const {
-	const auto Beg = data.getRow().cbegin();
-	const auto End = data.getRow().cend();
+bool Sudoku::isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const {
+	const auto Beg = v.cbegin();
+	const auto End = v.cend();
 	auto iter = Beg;
 	while(iter != End) {
-		if(isDuplicate(iter, Beg)) {
+		if(isValueDuplicateOfCursorElement(cursorIndex, Beg, iter)) {
 			return true;
 		}
 		++iter;
 	}
 	return false;
+}
+
+bool Sudoku::isDuplicateInRow() const {
+	return isDuplicateInCursorVector(data.getCursorColumn(), data.getRow());
+}
+
+bool Sudoku::isDuplicateInColumn() const {
+	return isDuplicateInCursorVector(data.getCursorRow(), data.getColumn());
+}
+
+bool Sudoku::isDuplicateInSubSquare() const {
+	return isDuplicateInCursorVector(data.getCursorSubSquare().x + data.getCursorSubSquare().y, data.getSubSquare());
 }
 
 const Sudoku &Sudoku::printSudoku() const {

@@ -1,6 +1,4 @@
-# TO DO 
-
-# OVERALL PLAN
+ # Overall
 ## Classes
 ### Matrix
 * Data members
@@ -53,19 +51,33 @@ How to provide visual feedback for selected cells?
 * user will answer y-n
 * then change value
 
-# DAILY PLAN
-
-## DAY 2
+# Daily Plans
 
 ### Objective
 check if the row at position cursor.row does not have another value that is the same as the one in the cursor position
 
 **Matrix**
 Matrix has a function called getElement that returns the element at the cursor position (returns unsigned) 
+
 Matrix has a function getCursorColumn that returns the cursor column (returns unsigned) 
+
 Matrix has a function getRow that returns a vector<unsigned>
 
 **Sudoku**
 Sudoku has a private function called searchRow which returns true if a given element(from getElement) is in the row(from getRow) of the cursor, false if not.
+
 The cursor position (given from getCursorColumn) must be ignored (sudoku specific). 
 	
+### Objective
+check if the column at position cursor.column does not have another value that is the same as the one in the cursor position
+
+
+**Matrix**
+Matrix has a function getColumn that returns a vector <unsigned>
+* for range through rows
+* pushback on return vector at position cursor.column
+
+### Objective
+check if the submatrix square does not have another value that is the same as the one in the cursor position
+
+

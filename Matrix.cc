@@ -1,10 +1,12 @@
 #include "Matrix.h"
+#include <cmath>
 #include <iostream>
 
 using std::istream;
 using std::ostream;
 using std::cin;
 using std::cout;
+using std::sqrt;
 
 namespace {
 	ostream &annouceChangeCursor(ostream &os) {
@@ -32,6 +34,23 @@ istream &Matrix::readElement(istream &is) {
 	return is;
 }
 
+unsigned Matrix::getNrRows() const {
+	return elements.size();
+}
+
+unsigned Matrix::getNrColumns() const {
+	if(!elements.empty()) {
+		return elements[0].size(); 
+	} else {
+		return 0;
+	}
+}
+
+bool Matrix::isMatrixSquare() const {
+	return getNrColumns() == getNrColumns();
+}
+
+
 Matrix &Matrix::setCursor() {
 	annouceChangeCursor(cout);
 	readCursor(cin);
@@ -50,13 +69,47 @@ Matrix::vv_unsigned::const_iterator Matrix::cbegin() const {
 
 unsigned Matrix::getElement() const {
 	return elements[cursor.row][cursor.column];
-};
+}
+
+unsigned Matrix::getCursorRow() const {
+	return cursor.row;
+}
 
 unsigned Matrix::getCursorColumn() const {
 	return cursor.column;
-};
+}
+
+Point Matrix::getCursorSubSquare() const {
+	Point xy;
+	xy.row = cursor.row / 3;
+	xy.column = cursor.column / 3;
+	return xy;
+}
 
 Matrix::v_unsigned Matrix::getRow() const {
 	return elements[cursor.row];
 }
-;
+
+Matrix::v_unsigned Matrix::getColumn() const {
+	v_unsigned v;
+	for(const auto &row : elements) {
+		v.push_back(row[cursor.column]);
+	}
+	return v;
+}
+
+Matrix::v_unsigned Matrix::getSubSquare() const {
+	v_unsigned v;
+	Point xy = getCursorSubSquare();
+	if (isMatrixSquare()) {
+		const auto subSquareSize = sqrt(getNrRows());
+		const auto begSubSquareRowIter = elements.cbegin() + xy.row * subSquareSize;
+		for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + subSquareSize; ++i) {
+			const auto begSubSquareElemIter = i -> cbegin() + xy.column * subSquareSize;
+			for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + subSquareSize; ++i) {
+				v.push_back(*j);
+			}
+		}
+	}
+	return v;
+}

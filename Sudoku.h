@@ -24,14 +24,15 @@ public:
 	Sudoku &printSudoku();
 
 	Sudoku &playOneMove();
-	//for now as public for debug
 	bool isDuplicateInRow() const;
+	bool isDuplicateInColumn() const; 
+	bool isDuplicateInSubSquare() const;
 
 private:
 	Matrix data; 
 	void printRow(const v_unsigned &row) const;
 	Sudoku &doPrintSudoku() const;
-	bool isDuplicate(const v_unsigned::const_iterator iter, const v_unsigned::const_iterator Beg) const;
-
+	bool isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator Beg, v_unsigned::const_iterator iter) const;
+	bool isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const;
 	const short nrRows = 9;
 };

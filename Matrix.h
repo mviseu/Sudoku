@@ -14,7 +14,7 @@ namespace {
 	}
 }
 
-struct Cursor {
+struct Point {
 	unsigned row = 0;
 	unsigned column = 0;
 };
@@ -28,6 +28,9 @@ public:
 	Matrix() = default;
 	Matrix(const vv_unsigned &v) : elements(v) {}
 
+	unsigned getNrRows() const;
+	unsigned getNrColumns() const;
+
 	Matrix &setCursor();
 	Matrix &setElement();
 	
@@ -35,12 +38,20 @@ public:
 
 	unsigned getElement() const;
 	unsigned getCursorColumn() const;
+	unsigned getCursorRow() const;
+
+	bool isMatrixSquare() const;
+	Point getCursorSubSquare() const;
+
+
 	v_unsigned getRow() const;
+	v_unsigned getColumn() const;
+	v_unsigned getSubSquare() const;
 
 
 private:
 	vv_unsigned elements;
-	Cursor cursor;
+	Point cursor;
 	istream &readCursor(istream &);
 	istream &readElement(istream &);
 };
