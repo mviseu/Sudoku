@@ -34,6 +34,8 @@ istream &Matrix::readElement(istream &is) {
 	return is;
 }
 
+
+
 unsigned Matrix::getNrRows() const {
 	return elements.size();
 }
@@ -50,6 +52,13 @@ bool Matrix::isMatrixSquare() const {
 	return getNrColumns() == getNrColumns();
 }
 
+unsigned Matrix::getDimensionSubSquare() const {
+	if(isMatrixSquare()) {
+		return sqrt(getNrRows());
+	} else {
+		return 0;
+	}
+}
 
 Matrix &Matrix::setCursor() {
 	annouceChangeCursor(cout);
@@ -79,10 +88,22 @@ unsigned Matrix::getCursorColumn() const {
 	return cursor.column;
 }
 
+unsigned Matrix::getCursorSubSquarePositionInVector() const {
+	unsigned vectorPosition{};
+	unsigned dimension = getDimensionSubSquare();
+	if(dimension) {
+		vectorPosition = cursor.row % dimension * dimension + cursor.column % dimension;
+	}
+	return vectorPosition;
+}
+
 Point Matrix::getCursorSubSquare() const {
 	Point xy;
-	xy.row = cursor.row / 3;
-	xy.column = cursor.column / 3;
+	unsigned dimension = getDimensionSubSquare();
+	if(dimension) {
+		xy.row = cursor.row / dimension;
+		xy.column = cursor.column / dimension;
+	}
 	return xy;
 }
 
@@ -101,12 +122,12 @@ Matrix::v_unsigned Matrix::getColumn() const {
 Matrix::v_unsigned Matrix::getSubSquare() const {
 	v_unsigned v;
 	Point xy = getCursorSubSquare();
-	if (isMatrixSquare()) {
-		const auto subSquareSize = sqrt(getNrRows());
-		const auto begSubSquareRowIter = elements.cbegin() + xy.row * subSquareSize;
-		for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + subSquareSize; ++i) {
-			const auto begSubSquareElemIter = i -> cbegin() + xy.column * subSquareSize;
-			for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + subSquareSize; ++i) {
+	unsigned dimension = getDimensionSubSquare();
+	if (dimension) {
+		const auto begSubSquareRowIter = elements.cbegin() + xy.row * dimension;
+		for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + dimension; ++i) {
+			const auto begSubSquareElemIter = i -> cbegin() + xy.column * dimension;
+			for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + dimension; ++j) {
 				v.push_back(*j);
 			}
 		}

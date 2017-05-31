@@ -80,4 +80,18 @@ Matrix has a function getColumn that returns a vector <unsigned>
 ### Objective
 check if the submatrix square does not have another value that is the same as the one in the cursor position
 
+Cursor: 
+
+Row 4
+(3, 3) (3, 4) (3, 5) (4, 3) (4, 4) (4, 5) (5, 3) (5, 4) (5, 5)
+
+cursor in position (3, 3) returns vector element 0
+cursor in position (3, 4) returns vector element 1
+cursor in position (4, 4) returns vector element 4
+
+vector position = cursor.row % 3 * 3 + cursor.column % 3
+
+
+
+
 

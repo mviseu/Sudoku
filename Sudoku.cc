@@ -93,7 +93,7 @@ bool Sudoku::isDuplicateInColumn() const {
 }
 
 bool Sudoku::isDuplicateInSubSquare() const {
-	return isDuplicateInCursorVector(data.getCursorSubSquare().x + data.getCursorSubSquare().y, data.getSubSquare());
+	return isDuplicateInCursorVector(data.getCursorSubSquarePositionInVector(), data.getSubSquare());
 }
 
 const Sudoku &Sudoku::printSudoku() const {

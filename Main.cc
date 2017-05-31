@@ -28,6 +28,7 @@ int main() {
 	S.playOneMove().printSudoku();
 	cout << S.isDuplicateInRow() << endl;
 	cout << S.isDuplicateInColumn() << endl;
+	cout << S.isDuplicateInSubSquare() << endl;
 
 	return 0;
 }

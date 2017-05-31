@@ -28,8 +28,11 @@ public:
 	Matrix() = default;
 	Matrix(const vv_unsigned &v) : elements(v) {}
 
+
+	bool isMatrixSquare() const;
 	unsigned getNrRows() const;
 	unsigned getNrColumns() const;
+	unsigned getDimensionSubSquare() const;
 
 	Matrix &setCursor();
 	Matrix &setElement();
@@ -39,9 +42,8 @@ public:
 	unsigned getElement() const;
 	unsigned getCursorColumn() const;
 	unsigned getCursorRow() const;
-
-	bool isMatrixSquare() const;
 	Point getCursorSubSquare() const;
+	unsigned getCursorSubSquarePositionInVector() const;
 
 
 	v_unsigned getRow() const;
