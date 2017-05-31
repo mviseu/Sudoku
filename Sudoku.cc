@@ -32,6 +32,19 @@ namespace {
 		os << "Here is your grid:" << endl;
 		return os;
 	}
+
+	ostream &warnDuplicateInRow(ostream &os) {
+		os << "Pay attention! This number is already in the same row." << endl;
+		return os;
+	}
+	ostream &warnDuplicateInColumn(ostream &os) {
+		os << "Pay attention! This number is already in the same column." << endl;
+		return os;
+	}
+	ostream &warnDuplicateInSubSquare(ostream &os) {
+		os << "Pay attention! This number is already in the same square block." << endl;
+		return os;
+	}
 }
 
 void Sudoku::printRow(const v_unsigned &row) const {
@@ -96,6 +109,22 @@ bool Sudoku::isDuplicateInSubSquare() const {
 	return isDuplicateInCursorVector(data.getCursorSubSquarePositionInVector(), data.getSubSquare());
 }
 
+bool Sudoku::isDuplicateInRowOrColumnOrSubSquare() const {
+	return isDuplicateInRow() || isDuplicateInColumn() || isDuplicateInSubSquare() ;	
+}
+
+void Sudoku::warnDuplicateMove() const {
+	if(isDuplicateInRow()) {
+		warnDuplicateInRow(cout);
+	}
+	if(isDuplicateInColumn()) {
+		warnDuplicateInColumn(cout);
+	}
+	if(isDuplicateInSubSquare()) {
+		warnDuplicateInSubSquare(cout);
+	}
+}
+
 const Sudoku &Sudoku::printSudoku() const {
 	announcePrintSudoku(cout);
 	return doPrintSudoku();
@@ -108,5 +137,13 @@ Sudoku &Sudoku::printSudoku() {
 
 Sudoku &Sudoku::playOneMove() {
 	data.setCursor().setElement();
+	if(isDuplicateInRowOrColumnOrSubSquare()) {
+		warnDuplicateMove();
+		data.setElement(0);
+	}
 	return *this;
+}
+
+bool Sudoku::isGameOver() const {
+	return !data.isElementInMatrix(0);
 }

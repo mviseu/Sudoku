@@ -35,6 +35,10 @@ public:
 	unsigned getDimensionSubSquare() const;
 
 	Matrix &setCursor();
+	Matrix &setCursor(istream &is);
+
+	Matrix &setElement(istream &is);
+	Matrix &setElement(unsigned u);
 	Matrix &setElement();
 	
 	vv_unsigned::const_iterator cbegin() const;
@@ -50,10 +54,9 @@ public:
 	v_unsigned getColumn() const;
 	v_unsigned getSubSquare() const;
 
+	bool isElementInMatrix(unsigned u) const;
 
 private:
 	vv_unsigned elements;
 	Point cursor;
-	istream &readCursor(istream &);
-	istream &readElement(istream &);
 };

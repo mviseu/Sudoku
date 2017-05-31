@@ -80,16 +80,27 @@ Matrix has a function getColumn that returns a vector <unsigned>
 ### Objective
 check if the submatrix square does not have another value that is the same as the one in the cursor position
 
-Cursor: 
+### Objective
+* Add a isMoveDuplicate function that has a column/rows/subMatrix check using the functions developed previously
+* In the PlayOneMove function
+	* If isMoveDuplicate is true
+		* warn the user
+		* set the value to zero -> add function to do this in Matrix
+		* play another move
+	* If isMoveDuplicate is false
+		* play another move
 
-Row 4
-(3, 3) (3, 4) (3, 5) (4, 3) (4, 4) (4, 5) (5, 3) (5, 4) (5, 5)
+## Changes to previous code
+* setElement will be overloaded
+	* Have Matrix &setElement(istream &)
+	* Have Matrix &setElement(unsigned u)
+	* Have Matrix &setElement()
+* correct all functions that call the old setElement()
 
-cursor in position (3, 3) returns vector element 0
-cursor in position (3, 4) returns vector element 1
-cursor in position (4, 4) returns vector element 4
+### Objective
+* Check if the matrix is full
+	* Based on Matrix function bool isElementInMatrix(unsigned int)
 
-vector position = cursor.row % 3 * 3 + cursor.column % 3
 
 
 

@@ -9,32 +9,15 @@ using std::cout;
 using std::sqrt;
 
 namespace {
-	ostream &annouceChangeCursor(ostream &os) {
+	ostream &printChangeCursor(ostream &os) {
 		os << "Provide the row and column of the cell you would like to change" << endl;
 		return os;
 	}
-	ostream &annouceChangeElement(ostream &os) {
+	ostream &printChangeElement(ostream &os) {
 		os << "Provide the new value" << endl;
 		return os;
 	}
 }
-
-istream &Matrix::readCursor(istream &is) {
-	unsigned r, c;
-	is >> r >> c;
-	cursor.row = convertBase1to0(r);
-	cursor.column = convertBase1to0(c);
-	return is;
-}
-
-istream &Matrix::readElement(istream &is) {
-	unsigned e;
-	is >> e;
-	elements[cursor.row][cursor.column] = e;
-	return is;
-}
-
-
 
 unsigned Matrix::getNrRows() const {
 	return elements.size();
@@ -60,15 +43,34 @@ unsigned Matrix::getDimensionSubSquare() const {
 	}
 }
 
-Matrix &Matrix::setCursor() {
-	annouceChangeCursor(cout);
-	readCursor(cin);
+Matrix &Matrix::setCursor(istream &is) {
+	unsigned r, c;
+	is >> r >> c;
+	cursor.row = convertBase1to0(r);
+	cursor.column = convertBase1to0(c);
 	return *this;
 }
 
+Matrix &Matrix::setCursor() {
+	printChangeCursor(cout);
+	setCursor(cin);
+	return *this;
+}
+
+Matrix & Matrix::setElement(unsigned u) {
+	elements[cursor.row][cursor.column] = u;
+	return *this;
+}
+
+Matrix &Matrix::setElement(istream &is) {
+	unsigned e;
+	is >> e;
+	return setElement(e);
+}
+
 Matrix &Matrix::setElement() {
-	annouceChangeElement(cout);
-	readElement(cin);
+	printChangeElement(cout);
+	setElement(cin);
 	return *this;
 }
 
@@ -133,4 +135,15 @@ Matrix::v_unsigned Matrix::getSubSquare() const {
 		}
 	}
 	return v;
+}
+
+bool Matrix::isElementInMatrix(unsigned u) const {
+	for(const auto &row : elements) {
+		for(const auto &elem : row) {
+			if(elem == u) {
+				return 1;
+			}
+		}
+	}
+	return 0;
 }

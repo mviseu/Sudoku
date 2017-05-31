@@ -7,7 +7,7 @@
 
 using std::cout;
 using std::endl;
-using std::iostream;
+using std::ostream;
 using std::vector;
 
 
@@ -22,17 +22,23 @@ public:
 
 	const Sudoku &printSudoku() const;
 	Sudoku &printSudoku();
-
 	Sudoku &playOneMove();
-	bool isDuplicateInRow() const;
-	bool isDuplicateInColumn() const; 
-	bool isDuplicateInSubSquare() const;
+	bool isGameOver() const;
 
 private:
 	Matrix data; 
 	void printRow(const v_unsigned &row) const;
 	Sudoku &doPrintSudoku() const;
+
+	bool isDuplicateInRow() const;
+	bool isDuplicateInColumn() const; 
+	bool isDuplicateInSubSquare() const;
+	bool isDuplicateInRowOrColumnOrSubSquare() const; 
+
 	bool isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator Beg, v_unsigned::const_iterator iter) const;
 	bool isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const;
+
+	void warnDuplicateMove() const;
+
 	const short nrRows = 9;
 };
