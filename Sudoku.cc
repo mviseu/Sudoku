@@ -52,7 +52,7 @@ void Sudoku::printRow(const v_unsigned &row) const {
 	const auto End = Beg + nrRows;
 	auto iter = Beg;
 	while(iter != End) {
-		auto d = iter - Beg;
+		auto d = iter - Beg; // unnecessary variable?
 		printOneElement(*iter);
 		if(isSeparatorNeeded(d, nrRows)) {
 			cout << " |";
@@ -88,7 +88,7 @@ bool Sudoku::isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsign
 	const auto Beg = v.cbegin();
 	const auto End = v.cend();
 	auto iter = Beg;
-	while(iter != End) {
+	while(iter != End) { // Why not iterator based for loop ?
 		if(isValueDuplicateOfCursorElement(cursorIndex, Beg, iter)) {
 			return true;
 		}

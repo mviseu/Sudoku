@@ -100,6 +100,7 @@ check if the submatrix square does not have another value that is the same as th
 ### Objective
 * Check if the matrix is full
 	* Based on Matrix function bool isElementInMatrix(unsigned int)
+* Perform PlayOneMove function until matrix is full
 
 
 
