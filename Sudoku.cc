@@ -48,13 +48,12 @@ namespace {
 }
 
 void Sudoku::printRow(const v_unsigned &row) const {
-	const auto Beg = row.cbegin();
-	const auto End = Beg + nrRows;
-	auto iter = Beg;
-	while(iter != End) {
-		auto d = iter - Beg; // unnecessary variable?
+	const auto beg = row.cbegin();
+	const auto end = beg + nrRows;
+	auto iter = beg;
+	while(iter != end) {
 		printOneElement(*iter);
-		if(isSeparatorNeeded(d, nrRows)) {
+		if(isSeparatorNeeded(iter - beg, nrRows)) {
 			cout << " |";
 		}
 		cout << " ";
@@ -63,13 +62,12 @@ void Sudoku::printRow(const v_unsigned &row) const {
 }
 
 Sudoku &Sudoku::doPrintSudoku() const {
-	const auto Beg = data.cbegin();
-	const auto End = Beg + nrRows;
-	auto iter = Beg;
-	while(iter != End) {
-		auto d = iter - Beg; 
+	const auto beg = data.cbegin();
+	const auto end = beg + nrRows;
+	auto iter = beg;
+	while(iter != end) {
 		printRow(*iter);
-		if(isSeparatorNeeded(d, nrRows)) {
+		if(isSeparatorNeeded(iter - beg, nrRows)) {
 			cout << endl;
 			printDivider(nrRows);
 		} 
@@ -79,20 +77,17 @@ Sudoku &Sudoku::doPrintSudoku() const {
 	return const_cast<Sudoku &>(*this);
 }
 
-bool Sudoku::isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator Beg, 
+bool Sudoku::isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator beg, 
 											 v_unsigned::const_iterator iter) const {
-	return iter - Beg != cursorIndex && *iter == data.getElement();
+	return iter - beg != cursorIndex && *iter == data.getElement();
 }
 
 bool Sudoku::isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const {
-	const auto Beg = v.cbegin();
-	const auto End = v.cend();
-	auto iter = Beg;
-	while(iter != End) { // Why not iterator based for loop ?
-		if(isValueDuplicateOfCursorElement(cursorIndex, Beg, iter)) {
+	const auto beg = v.cbegin();
+	for(auto iter = beg; iter != v.cend(); ++iter) {
+		if(isValueDuplicateOfCursorElement(cursorIndex, beg, iter)) {
 			return true;
 		}
-		++iter;
 	}
 	return false;
 }
@@ -136,10 +131,10 @@ Sudoku &Sudoku::printSudoku() {
 }
 
 Sudoku &Sudoku::playOneMove() {
-	data.setCursor().setElement();
+	data.readPositionFromCin().readElementFromCin();
 	if(isDuplicateInRowOrColumnOrSubSquare()) {
 		warnDuplicateMove();
-		data.setElement(0);
+		data.readElement(0);
 	}
 	return *this;
 }

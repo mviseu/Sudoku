@@ -35,7 +35,7 @@ bool Matrix::isMatrixSquare() const {
 	return getNrColumns() == getNrRows();
 }
 
-unsigned Matrix::getDimensionSubSquare() const {
+unsigned Matrix::getSubSquareDimension() const {
 	if(isMatrixSquare()) {
 		return sqrt(getNrRows());
 	} else {
@@ -43,7 +43,7 @@ unsigned Matrix::getDimensionSubSquare() const {
 	}
 }
 
-Matrix &Matrix::setCursor(istream &is) {
+Matrix &Matrix::readPosition(istream &is) {
 	unsigned r, c;
 	is >> r >> c;
 	cursor.row = convertBase1to0(r);
@@ -51,9 +51,9 @@ Matrix &Matrix::setCursor(istream &is) {
 	return *this;
 }
 
-Matrix &Matrix::setCursor() {
+Matrix &Matrix::readPositionFromCin() {
 	printChangeCursor(cout);
-	setCursor(cin);
+	readPosition(cin);
 	return *this;
 }
 
@@ -75,22 +75,22 @@ bool Matrix::isElementEmpty(const Point rc) const {
 	return true;
 }
 
-Matrix & Matrix::setElement(const unsigned u) {
+Matrix & Matrix::readElement(const unsigned u) {
 	if(!isElementEmpty(cursor)) {
 		elements[cursor.row][cursor.column] = u;
 	}
 	return *this;
 }
 
-Matrix &Matrix::setElement(istream &is) {
+Matrix &Matrix::readElement(istream &is) {
 	unsigned e;
 	is >> e;
-	return setElement(e);
+	return readElement(e);
 }
 
-Matrix &Matrix::setElement() {
+Matrix &Matrix::readElementFromCin() {
 	printChangeElement(cout);
-	setElement(cin);
+	readElement(cin);
 	return *this;
 }
 
@@ -99,15 +99,12 @@ Matrix::vv_unsigned::const_iterator Matrix::cbegin() const {
 }
 
 unsigned Matrix::getElement() const {
-	// unsafe (empty vector)
 	if(!isElementEmpty(cursor)) {
 		return elements[cursor.row][cursor.column];
 	}
 	return 0; //error handling??
 }
 
-// For 2 next functions, may make sense to only return the cursor
-// (client can always getCursor().row if they want)
 unsigned Matrix::getCursorRow() const {
 	return cursor.row;
 }
@@ -118,7 +115,7 @@ unsigned Matrix::getCursorColumn() const {
 
 unsigned Matrix::getCursorSubSquarePositionInVector() const {
 	unsigned vectorPosition{0}; 
-	unsigned dimension = getDimensionSubSquare();
+	unsigned dimension = getSubSquareDimension();
 	if(dimension) {
 		vectorPosition = cursor.row % dimension * dimension + cursor.column % dimension;
 	}
@@ -127,7 +124,7 @@ unsigned Matrix::getCursorSubSquarePositionInVector() const {
 
 Point Matrix::getCursorSubSquare() const {
 	Point xy;
-	unsigned dimension = getDimensionSubSquare();
+	unsigned dimension = getSubSquareDimension();
 	if(dimension) {
 		xy.row = cursor.row / dimension;
 		xy.column = cursor.column / dimension;
@@ -155,28 +152,25 @@ Matrix::v_unsigned Matrix::getColumn() const {
 	return v;
 }
 
-//evaluate const auto to see if it is putting the high-level or low-level const
-
 Matrix::v_unsigned Matrix::getSubSquare() const {
 	v_unsigned v;
-	Point xy = getCursorSubSquare();
-	unsigned dimension = getDimensionSubSquare();
-	// could split for less nesting/ better readibility
-	if (dimension) {
-		const auto begSubSquareRowIter = elements.cbegin() + xy.row * dimension;
-		for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + dimension; ++i) {
-			/*
-			<vv_unsigned>::const_iter getSubSquareRowBegIter() const
-			<v_unsigned> getSubSquareElemBegIter(const <vv_unsigned>::const_iter subSquareRowBegIter) const
-
-*/			const auto begSubSquareElemIter = i -> cbegin() + xy.column * dimension;
-			for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + dimension; ++j) {
-				v.push_back(*j);
-			}
-		}
+	unsigned dimension = getSubSquareDimension();
+	const auto begSubSquareRowIter = elements.cbegin() + getCursorSubSquare().row * dimension;
+	for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + dimension; ++i) {
+		addSubSquareRow(i, v);
 	}
 	return v;
 }
+
+Matrix::v_unsigned &Matrix::addSubSquareRow(const vv_unsigned::const_iterator subSquareRowIter, v_unsigned &subSquare) const {
+	unsigned dimension = getSubSquareDimension();
+	const auto begSubSquareElemIter = subSquareRowIter -> cbegin() + getCursorSubSquare().column * dimension;
+	for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + dimension; ++j) {
+		subSquare.push_back(*j);
+	}
+	return subSquare;
+}
+
 
 bool Matrix::isElementInMatrix(unsigned u) const {
 	for(const auto &row : elements) {

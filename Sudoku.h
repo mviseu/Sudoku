@@ -17,11 +17,11 @@ private:
 	using vv_unsigned = vector<vector<unsigned>>;
 
 public:
-	Sudoku() = default; // Is this necessary?
+	Sudoku() = default; 
 	Sudoku(const vv_unsigned &vv) : data(vv) {} 
 
 	const Sudoku &printSudoku() const;
-	Sudoku &printSudoku(); // Why?
+	Sudoku &printSudoku(); 
 	Sudoku &playOneMove();
 	bool isGameOver() const;
 

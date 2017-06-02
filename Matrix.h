@@ -10,8 +10,8 @@ using std::endl;
 
 namespace {
 	inline unsigned convertBase1to0(unsigned u) {
-		// unsafe (overflow could be surprising from client´s point of view)
-		return u - 1;
+		u > 0 ? --u: u = 0;
+		return u;
 	}
 }
 
@@ -28,31 +28,25 @@ public:
 	using v_unsigned = vector<unsigned>;
 	using vv_unsigned = vector<vector<unsigned>>;
 
-	Matrix() = default; // unnecessary (+ unused ?)
+	Matrix() = default; 
 	Matrix(const vv_unsigned &v) : elements(v) {}
 
 
 	bool isMatrixSquare() const;
 	unsigned getNrRows() const;
 	unsigned getNrColumns() const;
-	// getSubsquareDimension ?
-	unsigned getDimensionSubSquare() const;
+	unsigned getSubSquareDimension() const;
 
 	bool isRowEmpty(const unsigned r) const;
 	bool isElementEmpty(const Point rc) const;
 
-	// rename -> readPositionFromCin ?
-	Matrix &setCursor();
-	// private ?
-	// rename -> readPosition ?
-	Matrix &setCursor(istream &is);
+	Matrix &readPosition(istream &is);
+	Matrix &readPositionFromCin();
 
-	// private ?
-	// rename -> readElement ?
-	Matrix &setElement(istream &is);
-	Matrix &setElement(const unsigned u);
-	// rename -> readElementFromCin ?
-	Matrix &setElement();
+
+	Matrix &readElement(istream &is);
+	Matrix &readElement(const unsigned u);
+	Matrix &readElementFromCin();
 	
 	vv_unsigned::const_iterator cbegin() const;
 
@@ -70,6 +64,7 @@ public:
 	bool isElementInMatrix(unsigned u) const;
 
 private:
+	v_unsigned &addSubSquareRow(const vv_unsigned::const_iterator subSquareRowIter, v_unsigned &subSquare) const; 
 	vv_unsigned elements;
 	Point cursor;
 };
