@@ -9,8 +9,9 @@ using std::cout;
 using std::endl;
 using std::vector;
 
+
 namespace {
-	void printOneElement(const unsigned &u) {
+	void printOneElement(const int &u) {
 		if(u != 0) {
 			cout << u;
 		} else {
@@ -18,12 +19,12 @@ namespace {
 		}
 	}
 
-	bool isSeparatorNeeded(const unsigned &i, const unsigned nrElements) {
+	bool isSeparatorNeeded(const int &i, const int nrElements) {
 		return (i % 3 == 2 && i != nrElements - 1);
 	}
 
-	void printDivider(const unsigned nrElements) {
-		for(unsigned i = 0; i != nrElements; ++i) {
+	void printDivider(const int nrElements) {
+		for(int i = 0; i != nrElements; ++i) {
 			cout << (isSeparatorNeeded(i, nrElements) ? "- + " : "- ");
 		}
 	}
@@ -33,6 +34,14 @@ namespace {
 		return os;
 	}
 
+	ostream &warnInvalidElement(ostream &os) {
+		os << "Oh dear... The value is invalid." << endl;
+		return os;
+	}
+	ostream &warnInvalidPosition(ostream &os) {
+		os << "Think again... The position is invalid." << endl;
+		return os;
+	}
 	ostream &warnDuplicateInRow(ostream &os) {
 		os << "Pay attention! This number is already in the same row." << endl;
 		return os;
@@ -47,42 +56,73 @@ namespace {
 	}
 }
 
-void Sudoku::printRow(const v_unsigned &row) const {
+void Sudoku::printRow(const v_int &row) const {
 	const auto beg = row.cbegin();
-	const auto end = beg + nrRows;
-	auto iter = beg;
-	while(iter != end) {
+	for(auto iter = beg; iter != beg + nrRows; ++iter) {
 		printOneElement(*iter);
 		if(isSeparatorNeeded(iter - beg, nrRows)) {
 			cout << " |";
 		}
 		cout << " ";
-		++iter;
 	}
 }
 
 Sudoku &Sudoku::doPrintSudoku() const {
 	const auto beg = data.cbegin();
-	const auto end = beg + nrRows;
-	auto iter = beg;
-	while(iter != end) {
+	for(auto iter = beg; iter != beg + nrRows; ++iter) {
 		printRow(*iter);
 		if(isSeparatorNeeded(iter - beg, nrRows)) {
 			cout << endl;
 			printDivider(nrRows);
 		} 
 		cout << endl;
-		++iter;
 	}
 	return const_cast<Sudoku &>(*this);
 }
 
-bool Sudoku::isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator beg, 
-											 v_unsigned::const_iterator iter) const {
+bool Sudoku::isElementInvalid() const {
+	if(data.getElement() > 9 || data.getElement() < 1) {
+		return true;
+	} 
+	return false;
+}
+
+bool Sudoku::isPositionInvalid() const {
+	if(data.getCursorRow() > 8 || data.getCursorRow() < 0 ||
+	   data.getCursorColumn() > 8 || data.getCursorColumn() < 0) {
+		return true;
+	}
+	return false;
+}
+
+void Sudoku::readValidElementFromCin() {
+	while(isElementInvalid()) {
+		warnInvalidElement(cout);
+		data.readElementFromCin();
+	}
+}
+
+void Sudoku::readValidPositionFromCin() {
+	while(isPositionInvalid()) {
+		warnInvalidPosition(cout);
+		data.readPositionFromCin();
+	}
+}
+
+Sudoku &Sudoku::readPositionAndElementFromCin() {
+	data.readPositionFromCin();
+	readValidPositionFromCin();
+	data.readElementFromCin();
+	readValidElementFromCin();
+	return *this;
+}
+
+bool Sudoku::isValueDuplicateOfCursorElement(int cursorIndex, v_int::const_iterator beg, 
+											 v_int::const_iterator iter) const {
 	return iter - beg != cursorIndex && *iter == data.getElement();
 }
 
-bool Sudoku::isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const {
+bool Sudoku::isDuplicateInCursorVector(int cursorIndex, const vector<int> &v) const {
 	const auto beg = v.cbegin();
 	for(auto iter = beg; iter != v.cend(); ++iter) {
 		if(isValueDuplicateOfCursorElement(cursorIndex, beg, iter)) {
@@ -131,7 +171,7 @@ Sudoku &Sudoku::printSudoku() {
 }
 
 Sudoku &Sudoku::playOneMove() {
-	data.readPositionFromCin().readElementFromCin();
+	readPositionAndElementFromCin();
 	if(isDuplicateInRowOrColumnOrSubSquare()) {
 		warnDuplicateMove();
 		data.readElement(0);

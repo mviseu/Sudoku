@@ -19,11 +19,11 @@ namespace {
 	}
 }
 
-unsigned Matrix::getNrRows() const {
+int Matrix::getNrRows() const {
 	return elements.size();
 }
 
-unsigned Matrix::getNrColumns() const {
+int Matrix::getNrColumns() const {
 	if(!elements.empty()) {
 		return elements[0].size(); 
 	} else {
@@ -35,7 +35,7 @@ bool Matrix::isMatrixSquare() const {
 	return getNrColumns() == getNrRows();
 }
 
-unsigned Matrix::getSubSquareDimension() const {
+int Matrix::getSubSquareDimension() const {
 	if(isMatrixSquare()) {
 		return sqrt(getNrRows());
 	} else {
@@ -44,10 +44,10 @@ unsigned Matrix::getSubSquareDimension() const {
 }
 
 Matrix &Matrix::readPosition(istream &is) {
-	unsigned r, c;
+	int r, c;
 	is >> r >> c;
-	cursor.row = convertBase1to0(r);
-	cursor.column = convertBase1to0(c);
+	cursor.row = r;
+	cursor.column = c;
 	return *this;
 }
 
@@ -58,7 +58,7 @@ Matrix &Matrix::readPositionFromCin() {
 }
 
 
-bool Matrix::isRowEmpty(const unsigned r) const {
+bool Matrix::isRowEmpty(const int r) const {
 	if(elements.cbegin() + r < elements.cend()) {
 		return false;
 	}
@@ -75,7 +75,7 @@ bool Matrix::isElementEmpty(const Point rc) const {
 	return true;
 }
 
-Matrix & Matrix::readElement(const unsigned u) {
+Matrix & Matrix::readElement(const int u) {
 	if(!isElementEmpty(cursor)) {
 		elements[cursor.row][cursor.column] = u;
 	}
@@ -83,7 +83,7 @@ Matrix & Matrix::readElement(const unsigned u) {
 }
 
 Matrix &Matrix::readElement(istream &is) {
-	unsigned e;
+	int e;
 	is >> e;
 	return readElement(e);
 }
@@ -94,28 +94,28 @@ Matrix &Matrix::readElementFromCin() {
 	return *this;
 }
 
-Matrix::vv_unsigned::const_iterator Matrix::cbegin() const {
+Matrix::vv_int::const_iterator Matrix::cbegin() const {
 	return elements.cbegin();
 }
 
-unsigned Matrix::getElement() const {
+int Matrix::getElement() const {
 	if(!isElementEmpty(cursor)) {
 		return elements[cursor.row][cursor.column];
 	}
 	return 0; //error handling??
 }
 
-unsigned Matrix::getCursorRow() const {
+int Matrix::getCursorRow() const {
 	return cursor.row;
 }
 
-unsigned Matrix::getCursorColumn() const {
+int Matrix::getCursorColumn() const {
 	return cursor.column;
 }
 
-unsigned Matrix::getCursorSubSquarePositionInVector() const {
-	unsigned vectorPosition{0}; 
-	unsigned dimension = getSubSquareDimension();
+int Matrix::getCursorSubSquarePositionInVector() const {
+	int vectorPosition{0}; 
+	int dimension = getSubSquareDimension();
 	if(dimension) {
 		vectorPosition = cursor.row % dimension * dimension + cursor.column % dimension;
 	}
@@ -124,7 +124,7 @@ unsigned Matrix::getCursorSubSquarePositionInVector() const {
 
 Point Matrix::getCursorSubSquare() const {
 	Point xy;
-	unsigned dimension = getSubSquareDimension();
+	int dimension = getSubSquareDimension();
 	if(dimension) {
 		xy.row = cursor.row / dimension;
 		xy.column = cursor.column / dimension;
@@ -132,7 +132,7 @@ Point Matrix::getCursorSubSquare() const {
 	return xy;
 }
 
-Matrix::v_unsigned Matrix::getRow() const {
+Matrix::v_int Matrix::getRow() const {
     if(!isRowEmpty(cursor.row)) {
 		return elements[cursor.row];
 	}
@@ -140,8 +140,8 @@ Matrix::v_unsigned Matrix::getRow() const {
 }
 
 
-Matrix::v_unsigned Matrix::getColumn() const {
-	v_unsigned v;
+Matrix::v_int Matrix::getColumn() const {
+	v_int v;
 	for(auto rowIter = elements.cbegin(); rowIter < elements.cend(); ++rowIter) {
 		const Point xy(rowIter - elements.cbegin(), cursor.column);
 		if(!isElementEmpty(xy)) {
@@ -152,9 +152,9 @@ Matrix::v_unsigned Matrix::getColumn() const {
 	return v;
 }
 
-Matrix::v_unsigned Matrix::getSubSquare() const {
-	v_unsigned v;
-	unsigned dimension = getSubSquareDimension();
+Matrix::v_int Matrix::getSubSquare() const {
+	v_int v;
+	int dimension = getSubSquareDimension();
 	const auto begSubSquareRowIter = elements.cbegin() + getCursorSubSquare().row * dimension;
 	for(auto i = begSubSquareRowIter; i < begSubSquareRowIter + dimension; ++i) {
 		addSubSquareRow(i, v);
@@ -162,8 +162,8 @@ Matrix::v_unsigned Matrix::getSubSquare() const {
 	return v;
 }
 
-Matrix::v_unsigned &Matrix::addSubSquareRow(const vv_unsigned::const_iterator subSquareRowIter, v_unsigned &subSquare) const {
-	unsigned dimension = getSubSquareDimension();
+Matrix::v_int &Matrix::addSubSquareRow(const vv_int::const_iterator subSquareRowIter, v_int &subSquare) const {
+	int dimension = getSubSquareDimension();
 	const auto begSubSquareElemIter = subSquareRowIter -> cbegin() + getCursorSubSquare().column * dimension;
 	for(auto j = begSubSquareElemIter; j < begSubSquareElemIter + dimension; ++j) {
 		subSquare.push_back(*j);
@@ -172,7 +172,7 @@ Matrix::v_unsigned &Matrix::addSubSquareRow(const vv_unsigned::const_iterator su
 }
 
 
-bool Matrix::isElementInMatrix(unsigned u) const {
+bool Matrix::isElementInMatrix(int u) const {
 	for(const auto &row : elements) {
 		for(const auto &elem : row) {
 			if(elem == u) {

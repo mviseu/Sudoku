@@ -9,7 +9,7 @@ using std::cout;
 using std::endl;
 
 int main() {
-	vector<vector<unsigned>> vec =
+	vector<vector<int>> vec =
 /*	{
 		{0,0,0,2,6,0,7,0,1},
 		{6,8,0,0,7,0,0,9,0},

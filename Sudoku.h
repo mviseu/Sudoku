@@ -13,12 +13,12 @@ using std::vector;
 
 class Sudoku {
 private:
-	using v_unsigned = vector<unsigned>;
-	using vv_unsigned = vector<vector<unsigned>>;
+	using v_int = vector<int>;
+	using vv_int = vector<vector<int>>;
 
 public:
 	Sudoku() = default; 
-	Sudoku(const vv_unsigned &vv) : data(vv) {} 
+	Sudoku(const vv_int &vv) : data(vv) {} 
 
 	const Sudoku &printSudoku() const;
 	Sudoku &printSudoku(); 
@@ -27,18 +27,23 @@ public:
 
 private:
 	Matrix data; 
-	void printRow(const v_unsigned &row) const;
+	void printRow(const v_int &row) const;
 	Sudoku &doPrintSudoku() const;
+
+	bool isElementInvalid() const;
+	bool isPositionInvalid() const;
+	void readValidElementFromCin();
+	void readValidPositionFromCin();
+	Sudoku &readPositionAndElementFromCin();
 
 	bool isDuplicateInRow() const;
 	bool isDuplicateInColumn() const; 
 	bool isDuplicateInSubSquare() const;
 	bool isDuplicateInRowOrColumnOrSubSquare() const; 
 
-	bool isValueDuplicateOfCursorElement(unsigned cursorIndex, v_unsigned::const_iterator Beg, v_unsigned::const_iterator iter) const;
-	bool isDuplicateInCursorVector(unsigned cursorIndex, const vector<unsigned> &v) const;
+	bool isValueDuplicateOfCursorElement(int cursorIndex, v_int::const_iterator Beg, v_int::const_iterator iter) const;
+	bool isDuplicateInCursorVector(int cursorIndex, const vector<int> &v) const;
 
 	void warnDuplicateMove() const;
-
 	const short nrRows = 9;
 };

@@ -8,36 +8,29 @@ using std::istream;
 using std::cout;
 using std::endl;
 
-namespace {
-	inline unsigned convertBase1to0(unsigned u) {
-		u > 0 ? --u: u = 0;
-		return u;
-	}
-}
-
 struct Point {
 	Point() = default;
-	Point(const unsigned r, const unsigned c) : row(r), column(c) {}
-	unsigned row = 0;
-	unsigned column = 0;
+	Point(const int r, const int c) : row(r), column(c) {}
+	int row = 0;
+	int column = 0;
 };
 
 
 class Matrix {
 public:
-	using v_unsigned = vector<unsigned>;
-	using vv_unsigned = vector<vector<unsigned>>;
+	using v_int = vector<int>;
+	using vv_int = vector<vector<int>>;
 
 	Matrix() = default; 
-	Matrix(const vv_unsigned &v) : elements(v) {}
+	Matrix(const vv_int &v) : elements(v) {}
 
 
 	bool isMatrixSquare() const;
-	unsigned getNrRows() const;
-	unsigned getNrColumns() const;
-	unsigned getSubSquareDimension() const;
+	int getNrRows() const;
+	int getNrColumns() const;
+	int getSubSquareDimension() const;
 
-	bool isRowEmpty(const unsigned r) const;
+	bool isRowEmpty(const int r) const;
 	bool isElementEmpty(const Point rc) const;
 
 	Matrix &readPosition(istream &is);
@@ -45,26 +38,26 @@ public:
 
 
 	Matrix &readElement(istream &is);
-	Matrix &readElement(const unsigned u);
+	Matrix &readElement(const int u);
 	Matrix &readElementFromCin();
 	
-	vv_unsigned::const_iterator cbegin() const;
+	vv_int::const_iterator cbegin() const;
 
-	unsigned getElement() const;
-	unsigned getCursorColumn() const;
-	unsigned getCursorRow() const;
+	int getElement() const;
+	int getCursorColumn() const;
+	int getCursorRow() const;
 	Point getCursorSubSquare() const;
-	unsigned getCursorSubSquarePositionInVector() const;
+	int getCursorSubSquarePositionInVector() const;
 
 
-	v_unsigned getRow() const;
-	v_unsigned getColumn() const;
-	v_unsigned getSubSquare() const;
+	v_int getRow() const;
+	v_int getColumn() const;
+	v_int getSubSquare() const;
 
-	bool isElementInMatrix(unsigned u) const;
+	bool isElementInMatrix(int u) const;
 
 private:
-	v_unsigned &addSubSquareRow(const vv_unsigned::const_iterator subSquareRowIter, v_unsigned &subSquare) const; 
-	vv_unsigned elements;
+	v_int &addSubSquareRow(const vv_int::const_iterator subSquareRowIter, v_int &subSquare) const; 
+	vv_int elements;
 	Point cursor;
 };

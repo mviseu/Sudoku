@@ -51,7 +51,7 @@ How to provide visual feedback for selected cells?
 * user will answer y-n
 * then change value
 
-# Daily Plans
+## Daily Plans
 
 ### Objective
 check if the row at position cursor.row does not have another value that is the same as the one in the cursor position
