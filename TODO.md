@@ -103,6 +103,15 @@ check if the submatrix square does not have another value that is the same as th
 * Perform PlayOneMove function until matrix is full
 
 
+### Objective
+* Learn debug tool (visual studio?)
+
+### Objective
+* deal with non-integer input (includes char and decimals)
+* change cursor cell/row selection to next/previous (wasd) input 
+* clear the screen to fix the grid
+
+
 
 
 
