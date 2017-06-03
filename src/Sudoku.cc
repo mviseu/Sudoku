@@ -1,6 +1,7 @@
 #include "Sudoku.h"
 #include <iostream>
 #include <vector>
+#include <stdexcept>
 
 using std::istream;
 using std::ostream;
@@ -8,6 +9,7 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
+using std::invalid_argument;
 
 
 namespace {
@@ -110,10 +112,28 @@ void Sudoku::readValidPositionFromCin() {
 }
 
 Sudoku &Sudoku::readPositionAndElementFromCin() {
-	data.readPositionFromCin();
-	readValidPositionFromCin();
-	data.readElementFromCin();
-	readValidElementFromCin();
+	bool isPossibleExceptionPosition = true;
+	while(isPossibleExceptionPosition == true) {
+		try  {
+			data.readPositionFromCin();
+			readValidPositionFromCin();
+			isPossibleExceptionPosition = false;
+
+		} catch(invalid_argument err) {
+			cout << "Invalid argument" << endl;
+		}
+	}
+	bool isPossibleExceptionElement = true;
+	while(isPossibleExceptionElement == true) {
+		try  {
+			data.readElementFromCin();
+			readValidElementFromCin();
+			isPossibleExceptionElement = false;
+
+		} catch(invalid_argument err) {
+			cout << "Invalid argument" << endl;
+		}
+	}
 	return *this;
 }
 

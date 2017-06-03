@@ -1,14 +1,22 @@
 #include "Matrix.h"
 #include <cmath>
 #include <iostream>
+#include <string>
 
 using std::istream;
 using std::ostream;
 using std::cin;
 using std::cout;
 using std::sqrt;
+using std::string;
+using std::stoi;
 
 namespace {
+	int readStringToInt(istream &is) {
+		string s;
+		is >> s;
+		return stoi(s);
+	}
 	ostream &printChangeCursor(ostream &os) {
 		os << "Provide the row and column of the cell you would like to change" << endl;
 		return os;
@@ -44,8 +52,7 @@ int Matrix::getSubSquareDimension() const {
 }
 
 Matrix &Matrix::readPosition(istream &is) {
-	int r, c;
-	is >> r >> c;
+	int r = readStringToInt(is), c = readStringToInt(is);
 	cursor.row = r;
 	cursor.column = c;
 	return *this;
@@ -83,8 +90,7 @@ Matrix & Matrix::readElement(const int u) {
 }
 
 Matrix &Matrix::readElement(istream &is) {
-	int e;
-	is >> e;
+	int e = readStringToInt(is);
 	return readElement(e);
 }
 
