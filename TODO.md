@@ -104,10 +104,13 @@ check if the submatrix square does not have another value that is the same as th
 
 
 ### Objective
-* Learn debug tool (visual studio?)
+* Learn debug tool (visual studio)
 
 ### Objective
 * deal with non-integer input (includes char and decimals)
+* do not repeat warning messages if invalid inputs are given for both column and row positions
+* do not repeat warning messages if both char and float are given as inputs
+* clean up exception handling code
 * change cursor cell/row selection to next/previous (wasd) input 
 * clear the screen to fix the grid
 
