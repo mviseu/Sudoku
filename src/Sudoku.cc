@@ -1,6 +1,7 @@
 #include "Sudoku.h"
 #include <iostream>
 #include <vector>
+#include "User.h"
 
 using std::istream;
 using std::ostream;
@@ -8,6 +9,13 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::vector;
+
+bool isElementInvalid(int i) {
+	if(i > 9 || i < 1) {
+		return true;
+	} 
+	return false;
+}
 
 namespace {
 	void printOneElement(const int &u) {
@@ -27,14 +35,8 @@ namespace {
 			cout << (isSeparatorNeeded(i, nrElements) ? "- + " : "- ");
 		}
 	}
-
 	ostream &announcePrintSudoku(ostream &os) {
 		os << "Here is your grid:" << endl;
-		return os;
-	}
-
-	ostream &warnInvalidElement(ostream &os) {
-		os << "Oh dear... The value is invalid." << endl;
 		return os;
 	}
 	ostream &warnInvalidPosition(ostream &os) {
@@ -79,13 +81,6 @@ Sudoku &Sudoku::doPrintSudoku() const {
 	return const_cast<Sudoku &>(*this);
 }
 
-bool Sudoku::isElementInvalid() const {
-	if(data.getElement() > 9 || data.getElement() < 1) {
-		return true;
-	} 
-	return false;
-}
-
 bool Sudoku::isPositionInvalid() const {
 	if(data.getCursorRow() > 8 || data.getCursorRow() < 0 ||
 	   data.getCursorColumn() > 8 || data.getCursorColumn() < 0) {
@@ -94,12 +89,12 @@ bool Sudoku::isPositionInvalid() const {
 	return false;
 }
 
+
 void Sudoku::readValidElementFromCin() {
-	data.readElementFromCin();
-	while(isElementInvalid()) {
-		warnInvalidElement(cout);
-		data.readElementFromCin();
-	}
+	bool (*fp)(int) = isElementInvalid;
+	const int i = provideValidElementFromInputStream(fp);
+	data.readElement(i);
+
 }
 void Sudoku::readValidPositionFromCin() {
 	data.readPositionFromCin();

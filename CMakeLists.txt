@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 project(Sudoku CXX)
-set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-Werror -Wall -Wextra")
-add_executable(sudoku src/Main.cc src/Matrix.cc src/Sudoku.cc)
+add_executable(sudoku src/Main.cc src/Matrix.cc src/Sudoku.cc src/User.cc)

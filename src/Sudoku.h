@@ -30,7 +30,6 @@ private:
 	void printRow(const v_int &row) const;
 	Sudoku &doPrintSudoku() const;
 
-	bool isElementInvalid() const;
 	bool isPositionInvalid() const;
 	void readValidElementFromCin();
 	void readValidPositionFromCin();

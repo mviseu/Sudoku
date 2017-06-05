@@ -5,7 +5,8 @@
 using std::string;
 using std::vector;
 
-int provideValidElementFromInputStream();
+int provideValidElementFromInputStream(bool fp(int));
+int providValidElementFromArgument(const string &s, bool fp(int)); 
 vector<string> splitGetLineString(const string &s);
 bool isElementInvalid(int i);
-bool isElementRangeInvalid(int i, bool fp(int));
+void repeatReadIfArgumentInvalid(bool fp(int));

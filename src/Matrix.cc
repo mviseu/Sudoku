@@ -1,6 +1,7 @@
 #include "Matrix.h"
 #include <cmath>
 #include <iostream>
+#include <limits>
 #include <string>
 
 using std::istream;
@@ -12,11 +13,7 @@ using std::string;
 using std::stoi;
 
 namespace {
-	int readStringToInt(istream &is) {
-		string s;
-		is >> s;
-		return stoi(s);
-	}
+
 	ostream &printChangeCursor(ostream &os) {
 		os << "Provide the row and column of the cell you would like to change" << endl;
 		return os;
@@ -52,7 +49,10 @@ int Matrix::getSubSquareDimension() const {
 }
 
 Matrix &Matrix::readPosition(istream &is) {
-	int r = readStringToInt(is), c = readStringToInt(is);
+	int r, c ;
+	is >> r >> c;
+	is.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
+
 	cursor.row = r;
 	cursor.column = c;
 	return *this;
@@ -90,7 +90,8 @@ Matrix & Matrix::readElement(const int u) {
 }
 
 Matrix &Matrix::readElement(istream &is) {
-	int e = readStringToInt(is);
+	int e;
+	is >> e;
 	return readElement(e);
 }
 
