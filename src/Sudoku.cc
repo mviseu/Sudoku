@@ -10,14 +10,14 @@ using std::cout;
 using std::endl;
 using std::vector;
 
-bool isElementInvalid(int i) {
-	if(i > 9 || i < 1) {
-		return true;
-	} 
-	return false;
-}
 
 namespace {
+	bool isElementInvalid(int i) {
+		if(i > 9 || i < 1) {
+			return true;
+		} 
+		return false;
+	}
 	void printOneElement(const int &u) {
 		if(u != 0) {
 			cout << u;
@@ -92,7 +92,7 @@ bool Sudoku::isPositionInvalid() const {
 
 void Sudoku::readValidElementFromCin() {
 	bool (*fp)(int) = isElementInvalid;
-	const int i = provideValidElementFromInputStream(fp);
+	const int i = user::provideValidElementFromInputStream(fp);
 	data.readElement(i);
 
 }

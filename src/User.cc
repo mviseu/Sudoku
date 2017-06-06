@@ -13,52 +13,56 @@ using std::vector;
 using std::begin;
 using std::stoi;
 
-int provideValidElementFromInputStream(bool fp(int)) {
-	cout << "Provide the new value" << endl;
-    string s;
-    std::getline(std::cin, s);
-    vector<string> tokens = splitGetLineString(s);
-    if(tokens.size() != 1) {
-        repeatReadIfArgumentInvalid(fp);
-    } else {
-        return providValidElementFromArgument(tokens[0], fp);
+namespace {
+
+    void reprompt() {
+        cout << "Invalid argument. Please repeat." << endl;    
     }
-    return 0;
-}
 
-int providValidElementFromArgument(const string &s, bool fp(int)) {
-    try {
-        int i = stoi(s);
-        bool b = fp(i);
-        if(b) {
-            repeatReadIfArgumentInvalid(fp);
-        }
-        return i;
-    } catch (invalid_argument err) {
-        repeatReadIfArgumentInvalid(fp);
-    }
-    return 0;
-}
-
-void repeatReadIfArgumentInvalid(bool fp(int)) {
-    cout << "Invalid argument. Please repeat." << endl;
-    provideValidElementFromInputStream(fp);
-}
-
-vector<string> splitGetLineString(const string &s) {
-    vector<string> tokens;
-    tokens.push_back("");
-    for(const auto &c : s) {
-        if(isspace(c)) {
-            if (!tokens.back().empty()) {
-                tokens.push_back("");
+    vector<string> splitGetLineString(const string &s) {
+        vector<string> tokens;
+        tokens.push_back("");
+        for(const auto &c : s) {
+            if(isspace(c)) {
+                if (!tokens.back().empty()) {
+                    tokens.push_back("");
+                }
+            } else {
+                tokens.back() += c;
             }
+        }
+        if (tokens.back().empty()) {
+            tokens.pop_back();
+        }
+        return tokens;
+    }
+}
+
+namespace user {
+    int providValidElementFromArgument(const string &s, bool fp(int)) {
+        try {
+            int i = stoi(s);
+            if(!fp(i)) {
+                return i;
+            }
+        } catch (invalid_argument err) {
+            // error case handled below
+        }
+        reprompt();
+        return provideValidElementFromInputStream(fp);
+    }
+    int provideValidElementFromInputStream(bool fp(int)) {
+        cout << "Provide the new value" << endl;
+        string s;
+        std::getline(std::cin, s);
+        vector<string> tokens = splitGetLineString(s);
+        if(tokens.size() != 1) {
+            reprompt();
+            return provideValidElementFromInputStream(fp);
         } else {
-            tokens.back() += c;
+            return providValidElementFromArgument(tokens[0], fp);
         }
     }
-    if (tokens.back().empty()) {
-        tokens.pop_back();
-    }
-    return tokens;
 }
+
+
