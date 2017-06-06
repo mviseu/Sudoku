@@ -2,6 +2,7 @@
 #include "Sudoku.h"
 #include <vector>
 #include <iostream>
+#include "User.h"
 
 using std::vector;
 using std::cin;

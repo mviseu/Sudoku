@@ -2,19 +2,12 @@
 
 #include <vector>
 #include <iostream>
+#include "Point.h"
 
 using std::vector;
 using std::istream;
 using std::cout;
 using std::endl;
-
-struct Point {
-	Point() = default;
-	Point(const int r, const int c) : row(r), column(c) {}
-	int row = 0;
-	int column = 0;
-};
-
 
 class Matrix {
 public:
