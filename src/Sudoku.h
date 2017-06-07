@@ -18,7 +18,7 @@ private:
 
 public:
 	Sudoku() = default; 
-	Sudoku(const vv_int &vv) : data(vv) {} 
+	Sudoku(const vv_int &vv) : data(vv) {originalGrid = getOriginalPositions();} 
 
 	const Sudoku &printSudoku() const;
 	Sudoku &printSudoku(); 
@@ -27,9 +27,11 @@ public:
 
 private:
 	Matrix data; 
+	vector<Point> originalGrid;
+	vector<Point> getOriginalPositions() const;
 	void printRow(const v_int &row) const;
 	Sudoku &doPrintSudoku() const;
-	
+
 	void readValidElementFromCin();
 	void readValidPositionFromCin();
 	Sudoku &readPositionAndElementFromCin();

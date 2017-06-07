@@ -60,6 +60,19 @@ namespace {
 	}
 }
 
+vector<Point> Sudoku::getOriginalPositions() const {
+	vector<Point> positions;
+	for(auto rowIter = data.cbegin(); rowIter != data.cend(); ++rowIter) {
+		for(auto elemIter = rowIter -> cbegin(); elemIter != rowIter -> cend(); ++elemIter) {
+			if(*elemIter != 0) {
+				Point position(rowIter - data.cbegin(), elemIter - rowIter -> cbegin());
+				positions.push_back(position);
+			}
+		}
+	}
+	return positions;
+}
+
 void Sudoku::printRow(const v_int &row) const {
 	const auto beg = row.cbegin();
 	for(auto iter = beg; iter != beg + nrRows; ++iter) {

@@ -17,7 +17,6 @@ public:
 	Matrix() = default; 
 	Matrix(const vv_int &v) : elements(v) {}
 
-
 	bool isMatrixSquare() const;
 	int getNrRows() const;
 	int getNrColumns() const;
@@ -36,13 +35,13 @@ public:
 	Matrix &readElementFromCin();
 	
 	vv_int::const_iterator cbegin() const;
+	vv_int::const_iterator cend() const;
 
 	int getElement() const;
 	int getCursorColumn() const;
 	int getCursorRow() const;
 	Point getCursorSubSquare() const;
 	int getCursorSubSquarePositionInVector() const;
-
 
 	v_int getRow() const;
 	v_int getColumn() const;

@@ -108,6 +108,10 @@ Matrix::vv_int::const_iterator Matrix::cbegin() const {
 	return elements.cbegin();
 }
 
+Matrix::vv_int::const_iterator Matrix::cend() const {
+	return elements.cend();
+}
+
 int Matrix::getElement() const {
 	if(!isElementEmpty(cursor)) {
 		return elements[cursor.row][cursor.column];
