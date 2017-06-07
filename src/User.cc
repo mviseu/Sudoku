@@ -51,14 +51,20 @@ namespace {
 }
 
 namespace user {
+
+    int parseSingleInt(const string &s) {
+        string::size_type positionAfterInt{0};
+        auto i = stoi(s, &positionAfterInt);
+        if(s.cbegin() + positionAfterInt != s.cend()) {
+            throw invalid_argument(repromptString());
+        }
+        return i;        
+    }
+
     int getValidElement(const string &s, bool isElementNotInRange(int)) {
         int i;
         try {
-            string::size_type positionAfterInt;
-            i = stoi(s, &positionAfterInt);
-            if(s.cbegin() + positionAfterInt != s.cend()) {
-                throw invalid_argument(repromptString());
-            }
+            i = parseSingleInt(s);
         } catch (invalid_argument err) {
             reprompt();
             return getElementFromCin(isElementNotInRange);
@@ -69,6 +75,7 @@ namespace user {
         }
         return i;
     }
+
     int getElementFromCin(bool isElementNotInRange(int)) {
         cout << "Provide the new value" << endl;
         vector<string> tokens = getTokens(cin);
@@ -85,11 +92,7 @@ namespace user {
         for(auto iter = vs.cbegin(); iter != vs.cend(); ++iter) {
             int i;
             try {
-                string::size_type positionAfterInt;
-                i = stoi(*iter, &positionAfterInt);
-                if(iter -> cbegin() + positionAfterInt != iter -> cend()) {
-                    throw invalid_argument(repromptString());
-                }
+                i = parseSingleInt(*iter);
             } catch (invalid_argument err) {
                 reprompt();
                 return getPositionFromCin(isPositionNotInRange);
@@ -107,7 +110,6 @@ namespace user {
         }
         return position;
     }
-
 
     Point getPositionFromCin(bool isPositionNotInRange(Point)) {
         cout << "Provide the row and column positions (0 based)" << endl;
