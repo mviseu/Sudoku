@@ -12,13 +12,13 @@ using std::vector;
 
 
 namespace {
-	bool isElementInvalid(int i) {
+	bool isElementRangeInvalid(int i) {
 		if(i > 9 || i < 1) {
 			return true;
 		} 
 		return false;
 	}
-	bool isPositionInvalid(Point position) {
+	bool isPositionRangeInvalid(Point position) {
 		if(position.row > 8 || position.row < 0 ||
 		position.column > 8 || position.column < 0) {
 			return true;
@@ -73,6 +73,19 @@ vector<Point> Sudoku::getOriginalPositions() const {
 	return positions;
 }
 
+bool Sudoku::isPositionOriginal(Point position) const {
+	for(const auto &p : originalGrid) {
+		if(position.row == p.row && position.column == p.column) {
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Sudoku::isPositionInvalid(Point position) const {
+	return isPositionOriginal(position) || isPositionRangeInvalid(position);
+}
+
 void Sudoku::printRow(const v_int &row) const {
 	const auto beg = row.cbegin();
 	for(auto iter = beg; iter != beg + nrRows; ++iter) {
@@ -98,13 +111,13 @@ Sudoku &Sudoku::doPrintSudoku() const {
 }
 
 void Sudoku::readValidElementFromCin() {
-	bool (*fp)(int) = isElementInvalid;
+	bool (*fp)(int) = isElementRangeInvalid;
 	const int i = user::getElementFromCin(fp);
 	data.readElement(i);
 
 }
 void Sudoku::readValidPositionFromCin() {
-	bool (*fp)(Point) = isPositionInvalid;
+	bool (*fp)(Point) = isPositionRangeInvalid;
 	const Point xy = user::getPositionFromCin(fp);
 	data.setPosition(xy);
 }

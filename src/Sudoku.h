@@ -29,6 +29,9 @@ private:
 	Matrix data; 
 	vector<Point> originalGrid;
 	vector<Point> getOriginalPositions() const;
+	bool isPositionOriginal(Point position) const;
+	bool isPositionInvalid(Point position) const;
+	
 	void printRow(const v_int &row) const;
 	Sudoku &doPrintSudoku() const;
 
