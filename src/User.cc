@@ -51,53 +51,83 @@ namespace {
 }
 
 namespace user {
-    int providValidElementFromScalarArgument(const string &s, bool isElementRangeInvalidPr(int)) {
+    int getValidElement(const string &s, bool isElementNotInRange(int)) {
+        int i;
         try {
             string::size_type positionAfterInt;
-            int i = stoi(s, &positionAfterInt);
+            i = stoi(s, &positionAfterInt);
             if(s.cbegin() + positionAfterInt != s.cend()) {
                 throw invalid_argument(repromptString());
             }
-            if(!isElementRangeInvalidPr(i)) {
-                return i;
-            }
         } catch (invalid_argument err) {
-            // error case handled below
+            reprompt();
+            return getElementFromCin(isElementNotInRange);
         }
-        reprompt();
-        return provideValidElementFromInputStream(isElementRangeInvalidPr);
+        if(isElementNotInRange(i)) {
+            reprompt();
+            return getElementFromCin(isElementNotInRange);
+        }
+        return i;
     }
-    int provideValidElementFromInputStream(bool isElementRangeInvalidPr(int)) {
+    int getElementFromCin(bool isElementNotInRange(int)) {
         cout << "Provide the new value" << endl;
         vector<string> tokens = getTokens(cin);
         if(tokens.size() != 1) {
             reprompt();
-            return provideValidElementFromInputStream(isElementRangeInvalidPr);
+            return getElementFromCin(isElementNotInRange);
         } else {
-            return providValidElementFromScalarArgument(tokens[0], isElementRangeInvalidPr);
+            return getValidElement(tokens[0], isElementNotInRange);
         }
     }
 
+    Point getValidPosition(const vector<string> &vs, bool isPositionNotInRange(Point)) {
+        Point position;
+        for(auto iter = vs.cbegin(); iter != vs.cend(); ++iter) {
+            int i;
+            try {
+                string::size_type positionAfterInt;
+                i = stoi(*iter, &positionAfterInt);
+                if(iter -> cbegin() + positionAfterInt != iter -> cend()) {
+                    throw invalid_argument(repromptString());
+                }
+            } catch (invalid_argument err) {
+                reprompt();
+                return getPositionFromCin(isPositionNotInRange);
+            }
+            if(iter - vs.cbegin() == 0) {
+                position.row = i;
+            }
+            if(iter - vs.cbegin() == 1) {
+                position.column = i;
+            }
+        }
+        if(isPositionNotInRange(position)) {
+            reprompt();
+            return getPositionFromCin(isPositionNotInRange);   
+        }
+        return position;
+    }
 
-    // Point provideValidPositionFromInputStream(/*bool (*isPositionInvalidPr)(Point)*/) {
-    //     cout << "Provide the row and column positions (0 based)" << endl;
-    //     auto firstLineTokens = getTokens(cin);
-    //     if(firstLineTokens.size() == 1) {
-    //         auto secondLineTokens = getTokens(cin);
-    //         if(secondLineTokens.size() != 1) {
-    //             repromt();
-    //             return provideValidPositionFromInputStream();
-    //         }
-    //     } else if(firstLineTokens.size() == 2) {
 
-    //     } else {
-    //         repromt();
-    //         return provideValidPositionFromInputStream();
-    //     }
-        
-    //     return {'0', '1'};
-    // } 
- 
+    Point getPositionFromCin(bool isPositionNotInRange(Point)) {
+        cout << "Provide the row and column positions (0 based)" << endl;
+        auto firstLineTokens = getTokens(cin);
+        if(firstLineTokens.size() == 1) {
+            auto secondLineTokens = getTokens(cin);
+            if(secondLineTokens.size() != 1) {
+                reprompt();
+                return getPositionFromCin(isPositionNotInRange);
+            } else {
+                firstLineTokens.push_back(secondLineTokens[0]);
+                return getValidPosition(firstLineTokens, isPositionNotInRange);
+            }
+        } else if(firstLineTokens.size() == 2) {
+            return getValidPosition(firstLineTokens, isPositionNotInRange);
+        } else {
+            reprompt();
+            return getPositionFromCin(isPositionNotInRange);
+        }
+    } 
 } 
 
 

@@ -29,8 +29,7 @@ private:
 	Matrix data; 
 	void printRow(const v_int &row) const;
 	Sudoku &doPrintSudoku() const;
-
-	bool isPositionInvalid() const;
+	
 	void readValidElementFromCin();
 	void readValidPositionFromCin();
 	Sudoku &readPositionAndElementFromCin();

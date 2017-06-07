@@ -26,6 +26,7 @@ public:
 	bool isRowEmpty(const int r) const;
 	bool isElementEmpty(const Point rc) const;
 
+	Matrix &setPosition(Point xy);
 	Matrix &readPosition(istream &is);
 	Matrix &readPositionFromCin();
 

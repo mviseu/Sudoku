@@ -18,6 +18,13 @@ namespace {
 		} 
 		return false;
 	}
+	bool isPositionInvalid(Point position) {
+		if(position.row > 8 || position.row < 0 ||
+		position.column > 8 || position.column < 0) {
+			return true;
+		}
+		return false;
+	}
 	void printOneElement(const int &u) {
 		if(u != 0) {
 			cout << u;
@@ -37,10 +44,6 @@ namespace {
 	}
 	ostream &announcePrintSudoku(ostream &os) {
 		os << "Here is your grid:" << endl;
-		return os;
-	}
-	ostream &warnInvalidPosition(ostream &os) {
-		os << "Think again... The position is invalid." << endl;
 		return os;
 	}
 	ostream &warnDuplicateInRow(ostream &os) {
@@ -81,27 +84,16 @@ Sudoku &Sudoku::doPrintSudoku() const {
 	return const_cast<Sudoku &>(*this);
 }
 
-bool Sudoku::isPositionInvalid() const {
-	if(data.getCursorRow() > 8 || data.getCursorRow() < 0 ||
-	   data.getCursorColumn() > 8 || data.getCursorColumn() < 0) {
-		return true;
-	}
-	return false;
-}
-
-
 void Sudoku::readValidElementFromCin() {
 	bool (*fp)(int) = isElementInvalid;
-	const int i = user::provideValidElementFromInputStream(fp);
+	const int i = user::getElementFromCin(fp);
 	data.readElement(i);
 
 }
 void Sudoku::readValidPositionFromCin() {
-	data.readPositionFromCin();
-	while(isPositionInvalid()) {
-		warnInvalidPosition(cout);
-		readValidPositionFromCin();
-	}
+	bool (*fp)(Point) = isPositionInvalid;
+	const Point xy = user::getPositionFromCin(fp);
+	data.setPosition(xy);
 }
 
 Sudoku &Sudoku::readPositionAndElementFromCin() {

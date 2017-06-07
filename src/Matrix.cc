@@ -48,11 +48,15 @@ int Matrix::getSubSquareDimension() const {
 	}
 }
 
+Matrix &Matrix::setPosition(Point xy) {
+	cursor.row = xy.row;
+	cursor.column = xy.column;
+	return *this;
+}
+
 Matrix &Matrix::readPosition(istream &is) {
 	int r, c ;
 	is >> r >> c;
-	is.ignore (std::numeric_limits<std::streamsize>::max(), '\n');
-
 	cursor.row = r;
 	cursor.column = c;
 	return *this;
@@ -63,7 +67,6 @@ Matrix &Matrix::readPositionFromCin() {
 	readPosition(cin);
 	return *this;
 }
-
 
 bool Matrix::isRowEmpty(const int r) const {
 	if(elements.cbegin() + r < elements.cend()) {

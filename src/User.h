@@ -7,6 +7,6 @@ using std::string;
 using std::vector;
 
 namespace user {
-    int provideValidElementFromInputStream(bool isElementRangeInvalidPr(int));
-    Point provideValidPositionFromInputStream(/*bool (*isPositionInvalidPr)(Point)*/);
+    int getElementFromCin(bool isElementNotInRange(int));
+    Point getPositionFromCin(bool isPositionNotInRange(Point)); 
 }
