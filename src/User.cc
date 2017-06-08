@@ -20,10 +20,21 @@ namespace {
     void reprompt() {
         cout << "Invalid argument. Please repeat!" << endl;    
     }
-
+    void repromptPositionDomain() {
+        cout << "The position you are trying to set is out of range or part of the original grid!" << endl;    
+    }
     string repromptString() {
         return "Invalid argument. Please repeat!\n";        
     }
+
+	bool isPositionOriginal(Point position, const vector<Point> &originalPositions) {
+		for(const auto &p : originalPositions) {
+			if(position.row == p.row && position.column == p.column) {
+				return true;
+			}
+		}
+		return false;
+	}
 
     vector<string> splitGetLineString(const string &s) {
         vector<string> tokens;
@@ -87,7 +98,7 @@ namespace user {
         }
     }
 
-    Point getValidPosition(const vector<string> &vs, bool isPositionNotInRange(Point)) {
+    Point getValidPosition(const vector<string> &vs, bool isPositionNotInRange(Point), const vector<Point> &originalGrid = {}) {
         Point position;
         for(auto iter = vs.cbegin(); iter != vs.cend(); ++iter) {
             int i;
@@ -95,7 +106,7 @@ namespace user {
                 i = parseSingleInt(*iter);
             } catch (invalid_argument err) {
                 reprompt();
-                return getPositionFromCin(isPositionNotInRange);
+                return getPositionFromCin(isPositionNotInRange, originalGrid);
             }
             if(iter - vs.cbegin() == 0) {
                 position.row = i;
@@ -104,30 +115,30 @@ namespace user {
                 position.column = i;
             }
         }
-        if(isPositionNotInRange(position)) {
-            reprompt();
-            return getPositionFromCin(isPositionNotInRange);   
+        if(isPositionNotInRange(position) || isPositionOriginal(position, originalGrid)) {
+            repromptPositionDomain();
+            return getPositionFromCin(isPositionNotInRange, originalGrid);   
         }
         return position;
     }
 
-    Point getPositionFromCin(bool isPositionNotInRange(Point)) {
+    Point getPositionFromCin(bool isPositionNotInRange(Point), const vector<Point> &originalGrid) {
         cout << "Provide the row and column positions (0 based)" << endl;
         auto firstLineTokens = getTokens(cin);
         if(firstLineTokens.size() == 1) {
             auto secondLineTokens = getTokens(cin);
             if(secondLineTokens.size() != 1) {
                 reprompt();
-                return getPositionFromCin(isPositionNotInRange);
+                return getPositionFromCin(isPositionNotInRange, originalGrid);
             } else {
                 firstLineTokens.push_back(secondLineTokens[0]);
-                return getValidPosition(firstLineTokens, isPositionNotInRange);
+                return getValidPosition(firstLineTokens, isPositionNotInRange, originalGrid);
             }
         } else if(firstLineTokens.size() == 2) {
-            return getValidPosition(firstLineTokens, isPositionNotInRange);
+            return getValidPosition(firstLineTokens, isPositionNotInRange, originalGrid);
         } else {
             reprompt();
-            return getPositionFromCin(isPositionNotInRange);
+            return getPositionFromCin(isPositionNotInRange, originalGrid);
         }
     } 
 } 

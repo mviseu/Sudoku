@@ -25,6 +25,7 @@ namespace {
 		}
 		return false;
 	}
+
 	void printOneElement(const int &u) {
 		if(u != 0) {
 			cout << u;
@@ -73,19 +74,6 @@ vector<Point> Sudoku::getOriginalPositions() const {
 	return positions;
 }
 
-bool Sudoku::isPositionOriginal(Point position) const {
-	for(const auto &p : originalGrid) {
-		if(position.row == p.row && position.column == p.column) {
-			return true;
-		}
-	}
-	return false;
-}
-
-bool Sudoku::isPositionInvalid(Point position) const {
-	return isPositionOriginal(position) || isPositionRangeInvalid(position);
-}
-
 void Sudoku::printRow(const v_int &row) const {
 	const auto beg = row.cbegin();
 	for(auto iter = beg; iter != beg + nrRows; ++iter) {
@@ -118,7 +106,7 @@ void Sudoku::readValidElementFromCin() {
 }
 void Sudoku::readValidPositionFromCin() {
 	bool (*fp)(Point) = isPositionRangeInvalid;
-	const Point xy = user::getPositionFromCin(fp);
+	const Point xy = user::getPositionFromCin(fp, originalGrid);
 	data.setPosition(xy);
 }
 

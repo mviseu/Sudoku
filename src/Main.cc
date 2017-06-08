@@ -10,7 +10,7 @@ using std::cout;
 using std::endl;
 
 int main() {
-	vector<vector<int>> vec =/*
+	vector<vector<int>> vec =
 	{
 		{0,0,0,2,6,0,7,0,1},
 		{6,8,0,0,7,0,0,9,0},
@@ -22,7 +22,7 @@ int main() {
 		{0,4,0,0,5,0,0,3,6},
 		{7,0,3,0,1,8,0,0,0},
 	};
-*/
+/**
 	{
 		{0,2,3,4,5,6,7,8,9},
 		{4,5,6,7,8,9,1,2,3},
@@ -34,7 +34,7 @@ int main() {
 		{6,7,8,9,1,2,3,4,5},
 		{9,1,2,3,4,5,6,7,8},
 	}; 
-
+*/
 	Sudoku S(vec);
 	cout << "Welcome to Sudoku!\n";
 	while(!S.isGameOver()) {

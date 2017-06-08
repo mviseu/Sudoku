@@ -8,5 +8,5 @@ using std::vector;
 
 namespace user {
     int getElementFromCin(bool isElementNotInRange(int));
-    Point getPositionFromCin(bool isPositionNotInRange(Point)); 
+    Point getPositionFromCin(bool isPositionNotInRange(Point), const vector<Point> &originalGrid = {}); 
 }
